@@ -1,0 +1,15 @@
+server:
+    port: 8777
+
+spring:
+    application:
+        name: pipeline-gate
+#    cloud:
+#        zookeeper:
+#            connectString: ${DEVOPS_ZK_CONNECT_STRING}
+#            discovery:
+#                register: true
+#                instance-host: ${DEVOPS_CONTAINER_IP:${KETTY_IP}}
+#                instance-port: ${server.port}
+#                instance-id: ${spring.cloud.zookeeper.discovery.instance-host}:${spring.cloud.zookeeper.discovery.instance-port}
+

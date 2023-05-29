@@ -1,0 +1,20 @@
+# default profile, 与环境无关
+spring:
+    profiles:
+        active: dev
+
+redis:
+    connection: ${services.redis.baseUrl:redis://localhost:6379/3}
+
+# 任务队列名称
+keiko:
+    queue:
+        fillExecutorEachCycle: true
+        redis:
+            queueName: orca.task.queue-myb
+            deadLetterQueueName: orca.task.deadLetterQueue
+# 队列执行频率
+#queue:
+#    poll:
+#        frequency:
+#            ms: 30000

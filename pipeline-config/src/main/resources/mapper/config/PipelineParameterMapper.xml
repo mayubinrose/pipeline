@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.pipeline.config.dao.PipelineParameterDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.pipeline.config.entity.PipelineParameter">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="default_value" property="defaultValue" />
+        <result column="description" property="description" />
+        <result column="source" property="source" />
+        <result column="pipeline_config_id" property="pipelineConfigId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, default_value, description, source, pipeline_config_id
+    </sql>
+
+</mapper>
