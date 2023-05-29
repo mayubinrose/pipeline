@@ -1,0 +1,25 @@
+server:
+    port: 8777
+
+spring:
+    application:
+        name: pipeline-gate
+#    cloud:
+#        zookeeper:
+#            connectString: ${DEVOPS_ZK_CONNECT_STRING}
+#            discovery:
+#                register: true
+#                instance-host: ${DEVOPS_CONTAINER_IP:${KETTY_IP}}
+#                instance-port: ${server.port}
+#                instance-id: ${spring.cloud.zookeeper.discovery.instance-host}:${spring.cloud.zookeeper.discovery.instance-port}
+
+sysSetting:
+    prePath: /app/paas3/dep/pipeline_data
+    logDir: ${sysSetting.prePath}/logs
+    codeBuildPackageDir: ${sysSetting.prePath}/packages
+    codeBuildRepoDir: ${sysSetting.prePath}/repos
+    codeExportDir: ${sysSetting.prePath}/codeExports
+    codeImportDir: ${sysSetting.prePath}/codeImports
+    imageImportDir: ${sysSetting.prePath}/imageImports
+    imageExportDir: ${sysSetting.prePath}/imageExports
+    packagePublishDir: ${sysSetting.prePath}/publish

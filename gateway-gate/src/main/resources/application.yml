@@ -1,0 +1,17 @@
+# default profile, 与环境无关
+spring:
+    profiles:
+        active: dev
+
+# 队列执行频率
+#queue:
+#    poll:
+#        frequency:
+#            ms: 30000
+
+default:
+    bake:
+        account: default
+    securityGroups: []
+    vpc:
+        securityGroups: []

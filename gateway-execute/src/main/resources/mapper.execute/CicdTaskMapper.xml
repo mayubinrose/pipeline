@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.pipeline.execute.cicd.dao.CicdTaskDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.common.model.execute.CicdTask">
+        <id column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="task_name" jdbcType="VARCHAR" property="taskName"/>
+        <result column="task_code" jdbcType="VARCHAR" property="taskCode"/>
+        <result column="task_type" jdbcType="VARCHAR" property="taskType"/>
+        <result column="build_id" jdbcType="BIGINT" property="buildId"/>
+        <result column="head_commit_id" jdbcType="VARCHAR" property="headCommitId"/>
+        <result column="task_result" jdbcType="VARCHAR" property="taskResult"/>
+        <result column="status_cd" jdbcType="VARCHAR" property="statusCd"/>
+        <result column="status_time" jdbcType="TIMESTAMP" property="statusTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="machine_id" jdbcType="VARCHAR" property="machineId"/>
+        <result column="tenant_code" jdbcType="VARCHAR" property="tenantCode"/>
+        <result column="project_code" jdbcType="VARCHAR" property="projectCode"/>
+        <result column="app_code" jdbcType="VARCHAR" property="appCode"/>
+        <result column="app_deploy_code" jdbcType="VARCHAR" property="appDeployCode"/>
+        <result column="deploy_env_code" jdbcType="VARCHAR" property="deployEnvCode"/>
+        <result column="log_status" jdbcType="VARCHAR" property="logStatus"/>
+        <result column="eadp_agent_url" jdbcType="VARCHAR" property="eadpAgentUrl"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        task_id, task_name, task_code, task_type, build_id, head_commit_id, task_result,
+    status_cd, status_time, create_time, update_time, machine_id, tenant_code, project_code,
+    app_code, app_deploy_code, deploy_env_code, log_status, eadp_agent_url
+    </sql>
+
+</mapper>

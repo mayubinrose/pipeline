@@ -3,18 +3,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ctgcloud.edas</groupId>
-    <artifactId>pipeline</artifactId>
+    <groupId>com.ctgcloud.cicd</groupId>
+    <artifactId>gateway</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
     <modules>
-        <module>pipeline-common</module>
-        <module>pipeline-toolchain</module>
-        <module>pipeline-config</module>
-        <module>pipeline-echo</module>
-        <module>pipeline-execute</module>
-        <module>pipeline-gate</module>
+        <module>gateway-common</module>
+        <module>gateway-config</module>
+        <module>gateway-execute</module>
+        <module>gateway-gate</module>
     </modules>
 
     <parent>
@@ -28,8 +26,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <pipeline.version>1.0.0-SNAPSHOT</pipeline.version>
-        <ctgcloud-paas3-edas-common.version>2.0.0-SNAPSHOT</ctgcloud-paas3-edas-common.version>
+        <pipeline.version>3.0.0130-pipeline-SNAPSHOT</pipeline.version>
+        <ctgcloud-paas3-edas-common.version>v1.2.1-SNAPSHOT</ctgcloud-paas3-edas-common.version>
     </properties>
 
     <!--公共依赖-->
@@ -89,6 +87,10 @@
                 <exclusion>
                     <groupId>org.redisson</groupId>
                     <artifactId>redisson-spring-data-18</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr311-api</artifactId>
+                    <groupId>javax.ws.rs</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.SettingsRoleDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.SettingsRole">
+        <id column="id" property="id"/>
+        <result column="role_uuid" property="roleUuid"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="role_description" property="roleDescription"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="role_status" property="roleStatus"/>
+        <result column="node_root_id" property="nodeRootId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_uuid, role_name, role_code, role_description, create_by, create_time, update_by, update_time,role_status,node_root_id
+    </sql>
+    <insert id="insertSettingsRole">
+        insert into cicd_settings_role
+        (id, role_uuid, role_name, role_code, role_description, create_by, create_time, update_by, update_time,
+         role_status, node_root_id)
+        values (#{id}, #{roleUuid}, #{roleName}, #{roleCode}, #{roleDescription}, #{createBy}, #{createTime},
+                #{updateBy}, #{updateTime}, #{roleStatus}, #{nodeRootId})
+    </insert>
+
+    <select id="getRoleByName" resultType="com.ctg.cicd.config.entity.SettingsRole">
+        select *
+        from cicd_settings_role
+        where role_name = #{roleName}
+          and node_root_id = #{nodeRootId}
+    </select>
+    <select id="listByCondition" resultType="com.ctg.cicd.common.model.dto.SettingsRoleDTO">
+        select
+            id, role_uuid, role_name, role_code, role_description, create_by, create_time, update_by, update_time,
+            role_status, node_root_id
+        from cicd_settings_role
+        where node_root_id = #{nodeRootId}
+        <if test="roleName != null" >
+            and role_name like '%${roleName}%'
+        </if>
+        <if test="roleStatus != null" >
+            and role_status = #{roleStatus}
+        </if>
+        order by create_time DESC
+    </select>
+
+
+    <update id="updateById">
+        UPDATE cicd_settings_role
+        SET role_name        = #{roleName},
+            role_status      = #{roleStatus},
+            role_description = #{roleDescription}
+        WHERE id = #{id};
+    </update>
+
+
+</mapper>

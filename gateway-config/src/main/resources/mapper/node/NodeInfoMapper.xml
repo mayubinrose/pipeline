@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.NodeInfoDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.NodeInfo">
+        <id column="id" property="id" />
+        <result column="node_uuid" property="nodeUuid" />
+        <result column="node_name" property="nodeName" />
+        <result column="node_type" property="nodeType" />
+        <result column="node_label" property="nodeLabel" />
+        <result column="description" property="description" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="parent_id" property="parentId" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="parent_role_extends" property="parentRoleExtends" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, node_uuid, node_name, node_type, node_label, description, create_by, create_time, update_by, update_time, deleted, parent_id, tenant_id,parent_role_extends
+    </sql>
+    <insert id="insertNodeInfo" parameterType="com.ctg.cicd.config.entity.NodeInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into cicd_node_info
+            (id, node_uuid, node_name, node_type, node_label, description, create_by, create_time, update_by, update_time, deleted, parent_id, tenant_id,parent_role_extends)
+        values (#{id}, #{nodeUuid}, #{nodeName}, #{nodeType},#{nodeLabel}, #{description}, #{createBy},#{createTime}, #{updateBy}, #{updateTime}, #{deleted},#{parentId},#{tenantId},#{parentRoleExtends})
+    </insert>
+    <select id="getNodeRootId" resultType="java.lang.Long">
+        select id from cicd_node_info
+        where parent_id = -1 and tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectChildList" resultType="com.ctg.cicd.common.model.dto.NodeInfoDTO">
+            select id ,node_name,node_name,node_label,description,parent_id,node_type,tenant_id,parent_role_extends
+            from cicd_node_info
+            where parent_id = #{parentId}
+            <if test="nodeName != null  and nodeName != ''">
+                and node_name like concat('%', #{nodeName}, '%')
+            </if>
+            and deleted = 0
+    </select>
+
+</mapper>
