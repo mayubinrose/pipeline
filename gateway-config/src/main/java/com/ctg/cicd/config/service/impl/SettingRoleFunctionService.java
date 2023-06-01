@@ -49,7 +49,7 @@ public class SettingRoleFunctionService extends ServiceImpl<SettingRoleFunctionD
             批量插入相关的功能点id
          */
         List<SettingRoleFunction> inserts = new ArrayList<>();
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         Long nodeRootId = iNodeInfoService.getNodeRootId(tenantId);
         Date now = new Date();
         SettingsRole settingsRole = settingsRoleDao.selectById(settingsRoleFuncAddVo.getRoleId());
@@ -113,5 +113,10 @@ public class SettingRoleFunctionService extends ServiceImpl<SettingRoleFunctionD
     public List<Long> getFuncIdsByRoleId(Long id) {
         List<Long> funIds  = settingRoleFunctionDao.selectByRoleId(id);
         return funIds;
+    }
+
+    @Override
+    public int deleteByRoleId(Long roleId) {
+        return settingRoleFunctionDao.deleteByRoleId(roleId);
     }
 }

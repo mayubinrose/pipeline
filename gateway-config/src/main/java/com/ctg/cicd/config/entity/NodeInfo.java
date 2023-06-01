@@ -38,6 +38,10 @@ public class NodeInfo implements Serializable {
      * 节点名称
      */
     private String nodeName;
+    /**
+     * 节点编码
+     */
+    private String nodeCode;
 
     /**
      * 节点类型

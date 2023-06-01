@@ -40,4 +40,11 @@
         select distinct user_id from cicd_node_user_role where node_id = #{nodeId}
     </select>
 
+    <select id="getUserNumByaRoleId" resultType="java.lang.Integer">
+        select count(*) from cicd_node_user_role where role_id = #{roleId}
+    </select>
+
+    <delete id="deleteNodeUserRoleByRoleid">
+        delete from cicd_node_user_role where role_id = #{roleId}
+    </delete>
 </mapper>

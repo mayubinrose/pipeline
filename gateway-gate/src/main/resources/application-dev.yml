@@ -2,8 +2,12 @@ debug: true
 
 server:
     port: 28504
+    servlet:
+        context-path: /cicd
 
 spring:
+    main:
+        allow-bean-definition-overriding: true
     datasource:
         url: jdbc:mysql://10.50.208.248:18805/cicd_dev?useUnicode=true&characterEncoding=utf8
         username: edas

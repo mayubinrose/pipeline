@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctg.cicd.config.dao.AttrSpecDao">
+
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.base.AttrSpec">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="status_cd" jdbcType="VARCHAR" property="statusCd" />
+        <result column="status_time" jdbcType="TIMESTAMP" property="statusTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_staff" jdbcType="VARCHAR" property="createStaff" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_staff" jdbcType="VARCHAR" property="updateStaff" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, parent_id, code, name, type, sequence, description, status_cd, status_time, create_time,
+    create_staff, update_time, update_staff
+  </sql>
+    <select id="listWithValue" resultType="com.ctg.cicd.common.model.bo.AttrSpecValueBO">
+        SELECT s.id AS attr_spec_id, s.parent_id, s.code AS attr_spec_code, s.name AS attr_spec_name,
+        s.type AS attr_spec_type, s.description AS attr_spec_description,
+        v.id AS attr_value_id, v.attr_value, v.name AS attr_value_name, v.description AS attr_value_description,
+        v.sequence AS attr_value_sequence
+        FROM cicd_attr_spec AS s
+        INNER JOIN cicd_attr_value AS v ON v.attr_spec_id = s.id AND v.status_cd = #{statusCd}
+        WHERE s.status_cd = #{statusCd}
+    </select>
+
+    <select id="list" resultType="com.ctg.cicd.config.entity.base.AttrSpec">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM cicd_attr_spec
+        WHERE status_cd = #{statusCd}
+    </select>
+
+
+    <select id="selectValueByCode" resultType="com.ctg.cicd.common.model.bo.AttrSpecValueBO">
+        SELECT s.id AS attr_spec_id, s.parent_id, s.code AS attr_spec_code, s.name AS attr_spec_name,
+        s.type AS attr_spec_type, s.description AS attr_spec_description,
+        v.id AS attr_value_id, v.attr_value, v.name AS attr_value_name, v.description AS attr_value_description,
+        v.sequence AS attr_value_sequence
+        FROM cicd_attr_spec AS s
+        INNER JOIN cicd_attr_value AS v ON v.attr_spec_id = s.id AND v.status_cd = 'S0A'
+        WHERE s.status_cd = 'S0A' and s.code = #{code} and s.type = 'RESOURCE'
+    </select>
+
+</mapper>

@@ -23,4 +23,6 @@ public interface ISettingRoleFunctionService extends IService<SettingRoleFunctio
 
 
     List<Long> getFuncIdsByRoleId(Long id);
+
+    int deleteByRoleId(Long roleId);
 }

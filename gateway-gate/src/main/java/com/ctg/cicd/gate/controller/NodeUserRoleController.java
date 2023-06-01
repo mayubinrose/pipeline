@@ -1,20 +1,22 @@
 package com.ctg.cicd.gate.controller;
 
 
+import com.ctg.cicd.common.model.dto.OperateReturnDTO;
 import com.ctg.cicd.common.model.dto.UserInfoDTO;
 import com.ctg.cicd.common.model.vo.NodeUserAddVO;
 import com.ctg.cicd.common.model.vo.NodeUserDeleteVO;
+import com.ctg.cicd.common.model.vo.NodeUserRoleUpdateVO;
 import com.ctg.cicd.common.model.vo.NodeUserRoleVO;
 import com.ctg.cicd.config.service.INodeUserRoleService;
 import com.ctg.cicd.config.service.IUserService;
-import com.ctg.cloud.paascommon.json.JSONObject;
 import com.ctg.cloud.paascommon.utils.SecurityUtils;
-import com.ctg.cloud.paascommon.vo.Response;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -52,35 +54,48 @@ public class NodeUserRoleController {
                                                               @RequestParam Integer pageSize,
                                                               @RequestParam Long nodeId,
                                                               @RequestParam(required = false) String keyword) {
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         return userService.queryUserFilterNode(pageNum, pageSize, keyword, nodeId,tenantId);
     }
 
     @ApiOperation(value = "添加成员角色")
     @PostMapping("/add")
-    JSONObject createNodeUser(@RequestBody NodeUserAddVO nodeUserAddVO) {
-        String userName = SecurityUtils.getUserName()==null?"cicdTestUser":SecurityUtils.getUserName();
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+    OperateReturnDTO createNodeUser(@RequestBody NodeUserAddVO nodeUserAddVO) {
+        String userName = SecurityUtils.getUserName();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         nodeUserAddVO.setStaff(userName);
         nodeUserAddVO.setTenantId(tenantId);
         boolean result = nodeUserRoleService.addNodeUser(nodeUserAddVO);
-        JSONObject data = new JSONObject();
-        data.put("success",result);
-        return data;
+        return new OperateReturnDTO(result);
     }
 
 
     @ApiOperation(value = "移除成员角色")
     @PostMapping("/remove")
-    JSONObject deleteNodeUser(@RequestBody NodeUserDeleteVO nodeUserDeleteVO) {
-        String userName = SecurityUtils.getUserName()==null?"cicdTestUser":SecurityUtils.getUserName();
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+    OperateReturnDTO deleteNodeUser(@RequestBody NodeUserDeleteVO nodeUserDeleteVO) {
+        String userName = SecurityUtils.getUserName();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         nodeUserDeleteVO.setStaff(userName);
         nodeUserDeleteVO.setTenantId(tenantId);
         boolean result = nodeUserRoleService.deleteNodeUser(nodeUserDeleteVO);
-        JSONObject data = new JSONObject();
-        data.put("success",result);
-        return data;
+        return new OperateReturnDTO(result);
+    }
+
+    @ApiOperation(value = "编辑成员角色")
+    @PostMapping("/edit")
+    OperateReturnDTO editNodeUserRole(@RequestBody @Valid NodeUserRoleUpdateVO nodeUserRoleUpdateVO) {
+        String userName = SecurityUtils.getUserName();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
+        nodeUserRoleUpdateVO.setStaff(userName);
+        nodeUserRoleUpdateVO.setTenantId(tenantId);
+        boolean result = false;
+        try {
+             result = nodeUserRoleService.editNodeUserRole(nodeUserRoleUpdateVO);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return new OperateReturnDTO(result);
     }
 }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.PipelineStageGroupTaskDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.pipeline.PipelineStageGroupTask">
+        <id column="id" property="id" />
+        <result column="pipeline_uuid" property="pipelineUuid" />
+        <result column="pipeline_id" property="pipelineId" />
+        <result column="stage_id" property="stageId" />
+        <result column="group_id" property="groupId" />
+        <result column="task_type" property="taskType" />
+        <result column="task_label" property="taskLabel" />
+        <result column="task_order" property="taskOrder" />
+        <result column="build_cluster_id" property="buildClusterId" />
+        <result column="task_extinfo_id" property="taskExtinfoId" />
+        <result column="task_config_id" property="taskConfigId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="latest_execution_id" property="latestExecutionId" />
+        <result column="latest_execution_status" property="latestExecutionStatus" />
+        <result column="latest_execution_time" property="latestExecutionTime" />
+        <result column="latest_execution_by" property="latestExecutionBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pipeline_uuid, pipeline_id, stage_id, group_id, task_type, task_label, task_order, build_cluster_id, task_extinfo_id, task_config_id, create_time, create_by, update_time, update_by
+    </sql>
+
+</mapper>

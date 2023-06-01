@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ctg.cicd.common.constant.NodeConstant;
 import com.ctg.cicd.common.constant.NodeConstant.NodeTypeEnum;
+import com.ctg.cicd.common.exception.BusinessException;
 import com.ctg.cicd.common.model.vo.NodeUserAddVO;
 import com.ctg.cicd.common.model.vo.NodeUserDeleteVO;
+import com.ctg.cicd.common.model.vo.NodeUserRoleUpdateVO;
 import com.ctg.cicd.common.model.vo.NodeUserRoleVO;
 import com.ctg.cicd.config.dao.NodeInfoDao;
 import com.ctg.cicd.config.dao.NodeUserRoleDao;
@@ -246,5 +248,30 @@ public class NodeUserRoleService extends ServiceImpl<NodeUserRoleDao, NodeUserRo
         return nodeUserRoleDao.getDistinctUserByNodeId(nodeId);
     }
 
+    @Override
+    public boolean editNodeUserRole(NodeUserRoleUpdateVO updateVO) {
+        if(CollectionUtils.isEmpty(updateVO.getRoles())){
+            throw BusinessException.USER_ROLES_NOT_NULL.exception();
+        }
+        List<Long> userIds = new ArrayList<>(1);
+        userIds.add(updateVO.getUserId());
+        deleteNodeUserRoleByUserIds(userIds,updateVO.getNodeId());
+        List<NodeUserRole> insertList = new ArrayList<>(updateVO.getRoles().size());
+        for(Long roleId:updateVO.getRoles()){
+            NodeUserRole entity = buildNodeUserRole(updateVO.getUserId(),updateVO.getUserName(),roleId,updateVO.getNodeId(),updateVO.getStaff());
+            insertList.add(entity);
+        }
+        this.saveBatch(insertList);
+        return true;
+    }
+    @Override
+    public int getUserNumByRoleId(Long roleId) {
+        return nodeUserRoleDao.getUserNumByaRoleId(roleId);
+    }
+    @Override
+    public int deleteNodeUserRoleByRoleid(Long roleId) {
+
+        return nodeUserRoleDao.deleteNodeUserRoleByRoleid(roleId);
+    }
 
 }

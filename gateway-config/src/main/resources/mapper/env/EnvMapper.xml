@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.EnvDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.Env">
+        <id column="id" property="id" />
+        <result column="env_uuid" property="envUuid" />
+        <result column="env_name" property="envName" />
+        <result column="env_code" property="envCode" />
+        <result column="env_type" property="envType" />
+        <result column="env_type_name" property="envTypeName" />
+        <result column="res_pool_id" property="resPoolId" />
+        <result column="res_pool_name" property="resPoolName" />
+        <result column="res_pool_code" property="resPoolCode" />
+        <result column="node_id" property="nodeId" />
+        <result column="node_name" property="nodeName" />
+        <result column="vpc_id" property="vpcId" />
+        <result column="vpc_name" property="vpcName" />
+        <result column="docker_deploy" property="dockerDeploy" />
+        <result column="host_deploy" property="hostDeploy" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, env_uuid, env_name, env_code, env_type, env_type_name, res_pool_id, res_pool_name, res_pool_code, node_id, node_name, vpc_id, vpc_name, docker_deploy, host_deploy, create_time, create_by, update_time, update_by, tenant_id
+    </sql>
+
+    <insert id="insertEnv" parameterType="com.ctg.cicd.config.entity.Env" useGeneratedKeys="true" keyProperty="id">
+    insert into eadp_env (id, env_uuid, env_name, env_code, env_type, env_type_name, res_pool_id, res_pool_name,
+      res_pool_code, node_id, node_name, vpc_id, vpc_name, docker_deploy, host_deploy,
+      create_time, create_by, update_time, update_by, tenant_id )
+    values (#{id,jdbcType=BIGINT}, #{envUuid,jdbcType=VARCHAR},#{envName,jdbcType=VARCHAR},#{envCode,jdbcType=VARCHAR},
+        #{envType,jdbcType=VARCHAR},#{envTypeName,jdbcType=VARCHAR}, #{resPoolId,jdbcType=BIGINT}, #{resPoolName,jdbcType=VARCHAR},
+        #{resPoolCode,jdbcType=VARCHAR},#{nodeId,jdbcType=BIGINT},,#{nodeName,jdbcType=VARCHAR},#{vpcId,jdbcType=BIGINT}, #{vpcName,jdbcType=VARCHAR},
+        #{dockerDeploy,jdbcType=TINYINT}, #{hostDeploy,jdbcType=TINYINT},#{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR} , #{tenantId,jdbcType=BIGINT}
+      )
+  </insert>
+    <select id="listByNodeIdAndEnvName" resultType="com.ctg.cicd.common.model.dto.EnvDTO">
+        select
+        <include refid="Base_Column_List"/>
+        from cicd_env
+        where node_id = #{nodeId}
+        and tenant_id = #{tenantId}
+        <if test="envName != null and envName != ''">
+            and env_name like CONCAT('%', #{envName}, '%')
+        </if>
+        <if test="envType != null and envType != ''">
+            and env_type = #{envType}
+        </if>
+    </select>
+
+</mapper>

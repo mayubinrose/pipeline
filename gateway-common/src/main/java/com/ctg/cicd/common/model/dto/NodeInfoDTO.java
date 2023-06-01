@@ -13,6 +13,8 @@ public class NodeInfoDTO {
 
     private String nodeName;
 
+    private String nodeCode;
+
     private String nodeType;
 
     private Long parentId;

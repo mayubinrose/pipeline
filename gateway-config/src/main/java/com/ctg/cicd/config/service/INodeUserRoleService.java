@@ -2,6 +2,7 @@ package com.ctg.cicd.config.service;
 
 import com.ctg.cicd.common.model.vo.NodeUserAddVO;
 import com.ctg.cicd.common.model.vo.NodeUserDeleteVO;
+import com.ctg.cicd.common.model.vo.NodeUserRoleUpdateVO;
 import com.ctg.cicd.common.model.vo.NodeUserRoleVO;
 import com.ctg.cicd.config.entity.NodeUserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -30,4 +31,11 @@ public interface INodeUserRoleService extends IService<NodeUserRole> {
     boolean deleteNodeUser(NodeUserDeleteVO nodeUserDeleteVO);
 
     List<Long> getDistinctUserByNodeId(Long nodeId);
+
+    boolean editNodeUserRole(NodeUserRoleUpdateVO nodeUserRoleUpdateVO);
+
+
+    int deleteNodeUserRoleByRoleid(Long roleId);
+
+    int getUserNumByRoleId(Long roleId);
 }

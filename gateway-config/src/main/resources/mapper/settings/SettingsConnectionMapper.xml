@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.SettingsConnectionDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.settings.SettingsConnection">
+        <id column="id" property="id" />
+        <result column="uuid" property="uuid" />
+        <result column="connection_name" property="connectionName" />
+        <result column="connection_type" property="connectionType" />
+        <result column="credential_id" property="credentialId" />
+        <result column="credential_uuid" property="credentialUuid" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="node_root_id" property="nodeRootId" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, uuid, connection_name, connection_type, credential_id, credential_uuid, tenant_id, node_root_id, create_by, create_time, update_by, update_time
+    </sql>
+
+</mapper>

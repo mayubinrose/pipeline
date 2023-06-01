@@ -8,13 +8,17 @@ import com.ctg.cicd.common.constant.NodeConstant.NodeTypeEnum;
 import com.ctg.cicd.common.exception.BusinessException;
 import com.ctg.cicd.common.model.dto.NodeInfoDTO;
 import com.ctg.cicd.common.model.dto.NodeTreeDTO;
+import com.ctg.cicd.common.model.dto.SaveEntityReturnDTO;
 import com.ctg.cicd.common.model.vo.NodeInfoAddVO;
 import com.ctg.cicd.common.model.vo.NodeInfoUpdateVO;
+import com.ctg.cicd.common.model.vo.NodeUserRoleVO;
 import com.ctg.cicd.config.dao.NodeInfoDao;
 import com.ctg.cicd.config.entity.NodeInfo;
 import com.ctg.cicd.config.service.INodeInfoService;
 import com.ctg.eadp.common.util.CollectionUtils;
+import com.ctg.eadp.common.util.PageUtils;
 import com.ctg.eadp.common.util.UuidUtils;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +43,7 @@ public class NodeInfoService extends ServiceImpl<NodeInfoDao, NodeInfo> implemen
 
 
     @Override
-    public Long createNodeInfo(NodeInfoAddVO nodeInfoAddVO,String userName,Long tenantId) {
+    public SaveEntityReturnDTO createNodeInfo(NodeInfoAddVO nodeInfoAddVO, String userName, Long tenantId) {
         NodeInfo insert = new NodeInfo();
         BeanUtils.copyProperties(nodeInfoAddVO,insert);
         NodeInfo parentNode = getById(insert.getParentId());
@@ -57,7 +61,7 @@ public class NodeInfoService extends ServiceImpl<NodeInfoDao, NodeInfo> implemen
         insert.setDeleted(Boolean.FALSE);
         insert.setNodeUuid(UuidUtils.generateUuid());
         nodeInfoDao.insertNodeInfo(insert);
-        return insert.getId();
+        return new SaveEntityReturnDTO(insert.getId(),insert.getNodeUuid());
     }
 
     private void checkNodeType(NodeInfo parentNode, NodeInfo insert) {
@@ -151,10 +155,10 @@ public class NodeInfoService extends ServiceImpl<NodeInfoDao, NodeInfo> implemen
         return getParentCategoryObject(nodelist.get(0),nodeList, parentNode,parentNodeName);
     }
 
-    public List<NodeInfoDTO> getChildList(Long id,String nodeName) {
+    public PageInfo<NodeInfoDTO> getChildList(Long id,String nodeName, Integer pageNum,Integer pageSize) {
         List<NodeInfoDTO> list  = nodeInfoDao.selectChildList(id,nodeName);
         if(CollectionUtils.isEmpty(list)){
-            return Collections.emptyList();
+            PageInfo<NodeInfoDTO> pageInfo = PageUtils.listToPageInfo(Collections.emptyList(), pageNum, pageSize);
         }
         for(NodeInfoDTO nodeInfo:list){
             NodeInfo obj = new NodeInfo();
@@ -162,7 +166,8 @@ public class NodeInfoService extends ServiceImpl<NodeInfoDao, NodeInfo> implemen
             String nodePath = getNodePath(obj);
             nodeInfo.setNodePath(nodePath);
         }
-        return list;
+        PageInfo<NodeInfoDTO> pageInfo = PageUtils.listToPageInfo(list, pageNum, pageSize);
+        return pageInfo;
     }
 
     List<NodeInfo> getChildNodeList(Long parentNodeId) {
@@ -208,6 +213,8 @@ public class NodeInfoService extends ServiceImpl<NodeInfoDao, NodeInfo> implemen
                 BeanUtils.copyProperties(nodeInfo, userCheckData);
                 return userCheckData;
             }).collect(Collectors.toList());
+        }else{
+            return tree;
         }
 
         for (NodeTreeDTO node : nodeTreeList) {

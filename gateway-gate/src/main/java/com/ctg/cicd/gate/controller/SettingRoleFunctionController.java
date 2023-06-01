@@ -32,7 +32,7 @@ public class SettingRoleFunctionController {
     @PostMapping("/addFunc")
     JSONObject addFunc(@RequestBody SettingsRoleFuncAddVo settingsRoleFuncAddVo) {
         // 给某个根节点下的角色添加功能点 , 涉及的表是关联表。
-        String userName = SecurityUtils.getUserName() == null ? "张三" : SecurityUtils.getUserName();
+        String userName = SecurityUtils.getUserName();
         // 添加角色功能失败的话，返回false，否则返回true
         JSONObject data = new JSONObject();
         boolean res = iSettingRoleFunctionService.addFunc(userName, settingsRoleFuncAddVo);

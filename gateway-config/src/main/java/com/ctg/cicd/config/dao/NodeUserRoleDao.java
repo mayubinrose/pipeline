@@ -26,4 +26,8 @@ public interface NodeUserRoleDao extends BaseMapper<NodeUserRole> {
             "userName") String userName, @Param("nodeName") String nodeName);
 
     List<Long> getDistinctUserByNodeId(@Param("nodeId") Long nodeId);
+
+    int getUserNumByaRoleId(@Param("roleId") Long roleId);
+
+    int deleteNodeUserRoleByRoleid(@Param("roleId")Long roleId);
 }

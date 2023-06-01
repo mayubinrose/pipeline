@@ -22,8 +22,13 @@ public enum BusinessException {
     ROLE_UPDATE_FAIL(30003, "角色更新失败"),
 
     NOT_EXIST_CURRENT_ROLE(30004,"当前角色不存在"),
+    USER_ROLES_NOT_NULL(30005,"成员至少保留一个角色"),
 
-    EXIST_ROLE_FUNCITON_ADD_NOT_ALLOW(30005,"当前角色的功能已经存在，不能重复绑定")
+    EXIST_ROLE_FUNCITON_ADD_NOT_ALLOW(30005,"当前角色的功能已经存在，不能重复绑定"),
+    EXIST_ROLE_ABOUT_USER_DELETE_NOT_ALLOW(30006,"当前角色存在绑定的用户，不能删除该角色"),
+
+
+    DUPLICATED_ENV_CODE(40001, "重复的环境编码")
     ;
 
 

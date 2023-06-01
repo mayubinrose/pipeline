@@ -10,6 +10,7 @@ import com.ctg.cicd.common.model.vo.SettingsRoleUpdateVo;
 import com.ctg.cicd.config.dao.SettingsRoleDao;
 import com.ctg.cicd.config.entity.SettingsRole;
 import com.ctg.cicd.config.service.INodeInfoService;
+import com.ctg.cicd.config.service.INodeUserRoleService;
 import com.ctg.cicd.config.service.ISettingRoleFunctionService;
 import com.ctg.cicd.config.service.ISettingsRoleService;
 import com.ctg.cloud.paascommon.utils.SecurityUtils;
@@ -42,12 +43,13 @@ public class SettingsRoleService extends ServiceImpl<SettingsRoleDao, SettingsRo
     private INodeInfoService iNodeInfoService;
     @Autowired
     private ISettingRoleFunctionService iSettingRoleFunctionService;
-
+    @Autowired
+    private INodeUserRoleService iNodeUserRoleService;
     @Override
 //    @CacheEvict(value = "list", key = "#settingsRoleAddVo.nodeRootId") //dev、test环境目前redis挂了，暂时注解掉
     public boolean createRole(SettingsRoleAddVo settingsRoleAddVo, String userName) {
         // 如果租户的id获取不到 直接将根节点定义为1
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         Long nodeRootId = iNodeInfoService.getNodeRootId(tenantId);
         settingsRoleAddVo.setNodeRootId(nodeRootId);
         // 先根据节点id以及rolename 判断是否已经有存在的角色名字
@@ -67,15 +69,24 @@ public class SettingsRoleService extends ServiceImpl<SettingsRoleDao, SettingsRo
         return true;
     }
 
+
     @Override
     public boolean deleteRole(Long id) {
         // 如果已经不在数据库 不能删除了
-        //todo 删除角色需要判断这个角色下面是否还有绑定的用户
+        //删除角色需要判断这个角色下面是否还有绑定的用户
         SettingsRole settingsRole = settingsRoleDao.selectById(id);
         if (settingsRole == null) {
             throw BusinessException.NOT_EXIST_ROLE_DELETE_NOT_ALLOW.exception();
         }
+        // 找到这个角色绑定了哪些用户 ，通过角色id得到相关的
+        int userNum = iNodeUserRoleService.getUserNumByRoleId(id);
+        if(userNum!=0){
+            throw BusinessException.EXIST_ROLE_ABOUT_USER_DELETE_NOT_ALLOW.exception();
+        }
+        // 删除角色，涉及到的表有 cicd_settings_role  cicd_settings_role_function cicd_node_user_role
         settingsRoleDao.deleteById(id);
+        iSettingRoleFunctionService.deleteByRoleId(id);
+        iNodeUserRoleService.deleteNodeUserRoleByRoleid(id);
         return true;
     }
 
@@ -83,7 +94,7 @@ public class SettingsRoleService extends ServiceImpl<SettingsRoleDao, SettingsRo
     @Override
 //    @CacheEvict(value = "list", key = "#settingsRollUpdateVo.nodeRootId")
     public boolean updateRole(String userName, SettingsRoleUpdateVo settingsRollUpdateVo) {
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         Long nodeRootId = iNodeInfoService.getNodeRootId(tenantId);
 
         settingsRollUpdateVo.setNodeRootId(nodeRootId);

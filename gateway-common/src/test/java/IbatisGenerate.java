@@ -32,11 +32,10 @@ public class IbatisGenerate {
         //模块名称
         String controllerModule = "gateway-gate";
         String serviceModule = "gateway-config";
-        String entityModule = "gateway-common";
-        String packageName = "node";
-        String[] tableName =  new String[]{"cicd_node_info","cicd_node_user_role","cicd_settings_role_function"
-                ,"cicd_settings_function","cicd_settings_role","cicd_settings_user"};
-        preCustomPath(controllerModule,serviceModule,entityModule,packageName,customPathInfo);
+//        String entityModule = "gateway-common";
+        String packageName = "pipeline";
+        String[] tableName = new String[]{"cicd_pipeline_stage", "cicd_pipeline_stage_group", "cicd_pipeline_stage_group_task"};
+        preCustomPath(controllerModule, serviceModule, serviceModule, packageName, customPathInfo);
 
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/cicd?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC",
                         "root",
@@ -46,7 +45,7 @@ public class IbatisGenerate {
                 .globalConfig(builder -> {
                     builder
                             //.enableSwagger() // 是否启用swagger注解
-                            .author("hel") // 作者名称
+//                            .author("hel") // 作者名称
                             .dateType(DateType.ONLY_DATE) // 时间策略
                             .commentDate("yyyy-MM-dd") // 注释日期
                             .outputDir(System.getProperty("user.dir")) // 输出目录
@@ -58,12 +57,11 @@ public class IbatisGenerate {
                 .packageConfig(builder -> {
                     builder
                             .parent("com.ctg.cicd") // 父包名
-                            //.moduleName("config") // 模块包名
-//                            .entity("common.entity.config") // 实体类包名
+                            .moduleName("config") // 模块包名
                             .entity("config.entity") // 实体类包名
-                            //.service("service") // service包名
-                            //.serviceImpl("service.impl") // serviceImpl包名
-                            .mapper("dao") // mapper包名
+                            .service("service") // service包名
+                            .serviceImpl("service.impl") // serviceImpl包名
+                            .mapper("dao")// mapper包名
                             //.controller("controller") // controller包名
                             .pathInfo(customPathInfo);
                 })
@@ -108,7 +106,7 @@ public class IbatisGenerate {
 
                             // Service 策略配置
                             .serviceBuilder()
-                            .formatServiceFileName("%sService") // Service 文件名称
+                            .formatServiceFileName("I" + "%sService") // Service 文件名称
                             .formatServiceImplFileName("%sServiceImpl") // ServiceImpl 文件名称
 
                             // Mapper 策略配置
@@ -125,21 +123,21 @@ public class IbatisGenerate {
         String projectPath = System.getProperty(PROJECT_PATH);
         // src/main/java
         String srcMain = String.join(File.separator, "src", "main", "java");
-        String srcRecource = String.join(File.separator, "src", "main", "resources","mapper",packageName);
+        String srcRecource = String.join(File.separator, "src", "main", "resources", "mapper", packageName);
         // 包名
-        String controllerPackageName = "com.ctg.cicd.controller".replace('.', File.separatorChar);
-        String entityPackageName = "com.ctg.cicd.common.entity".replace('.', File.separatorChar);
-        String servicePackageName = ("com.ctg.cicd."+serviceModule.substring(serviceModule.indexOf("-")+1)+".service").replace('.', File.separatorChar);
-        String serviceImplPackageName = ("com.ctg.cicd."+serviceModule.substring(serviceModule.indexOf("-")+1)+".service.impl").replace('.', File.separatorChar);
-        String mapperPackageName = ("com.ctg.cicd."+serviceModule.substring(serviceModule.indexOf("-")+1)+".dao").replace('.', File.separatorChar);
+        String controllerPackageName = "com.ctg.cicd.gate.controller".replace('.', File.separatorChar);
+        String entityPackageName = "com.ctg.cicd.config.entity.pipeline".replace('.', File.separatorChar);
+        String servicePackageName = ("com.ctg.cicd." + serviceModule.substring(serviceModule.indexOf("-") + 1) + ".service").replace('.', File.separatorChar);
+        String serviceImplPackageName = ("com.ctg.cicd." + serviceModule.substring(serviceModule.indexOf("-") + 1) + ".service.impl").replace('.', File.separatorChar);
+        String mapperPackageName = ("com.ctg.cicd." + serviceModule.substring(serviceModule.indexOf("-") + 1) + ".dao").replace('.', File.separatorChar);
 
         // 自定义控制器路径
-        customPathInfo.put(OutputFile.controller, String.join(File.separator, projectPath,controllerModule, srcMain,controllerPackageName, packageName));
-        customPathInfo.put(OutputFile.entity, String.join(File.separator, projectPath,entityModule,srcMain, entityPackageName, packageName));
-        customPathInfo.put(OutputFile.service, String.join(File.separator, projectPath, serviceModule,srcMain,servicePackageName));
-        customPathInfo.put(OutputFile.serviceImpl, String.join(File.separator, projectPath,serviceModule,srcMain, serviceImplPackageName));
-        customPathInfo.put(OutputFile.mapperXml, String.join(File.separator, projectPath,serviceModule, srcRecource));
-        customPathInfo.put(OutputFile.mapper, String.join(File.separator, projectPath,serviceModule,srcMain, mapperPackageName));
+        customPathInfo.put(OutputFile.controller, String.join(File.separator, projectPath, controllerModule, srcMain, controllerPackageName, packageName));
+        customPathInfo.put(OutputFile.entity, String.join(File.separator, projectPath, entityModule, srcMain, entityPackageName, packageName));
+        customPathInfo.put(OutputFile.service, String.join(File.separator, projectPath, serviceModule, srcMain, servicePackageName));
+        customPathInfo.put(OutputFile.serviceImpl, String.join(File.separator, projectPath, serviceModule, srcMain, serviceImplPackageName));
+        customPathInfo.put(OutputFile.mapperXml, String.join(File.separator, projectPath, serviceModule, srcRecource));
+        customPathInfo.put(OutputFile.mapper, String.join(File.separator, projectPath, serviceModule, srcMain, mapperPackageName));
 
 
     }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.config.dao.EnvResourceDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.EnvResource">
+        <id column="id" property="id" />
+        <result column="env_id" property="envId" />
+        <result column="inst_id" property="instId" />
+        <result column="resource_name" property="resourceName" />
+        <result column="resource_pool_id" property="resourcePoolId" />
+        <result column="resource_pool_code" property="resourcePoolCode" />
+        <result column="namespace_inst_id" property="namespaceInstId" />
+        <result column="namespace" property="namespace" />
+        <result column="spu_name" property="spuName" />
+        <result column="spec" property="spec" />
+        <result column="ip" property="ip" />
+        <result column="order_time" property="orderTime" />
+        <result column="inst_count" property="instCount" />
+        <result column="status_cd" property="statusCd" />
+        <result column="main_category" property="mainCategory" />
+        <result column="sub_category" property="subCategory" />
+        <result column="appr_url" property="apprUrl" />
+        <result column="version" property="version" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, env_id, inst_id, resource_name, resource_pool_id, resource_pool_code, namespace_inst_id, namespace, spu_name, spec, ip, order_time, inst_count, status_cd, main_category, sub_category, appr_url, version, create_time, create_by, update_time, update_by, tenant_id
+    </sql>
+    <select id="getEnvResourceByInstIdAndNameSpace" resultType="com.ctg.cicd.config.entity.EnvResource">
+        select
+        <include refid="Base_Column_List" />
+        from eadp_env_resource
+        where inst_id = #{instId}
+        and namespace = #{namespace}
+        <if test="envId != null">
+            and env_id != #{envId}
+        </if>
+    </select>
+
+    <select id="page" resultType="com.ctg.cicd.common.model.dto.EnvResourceDTO">
+        select
+        <include refid="Base_Column_List" />
+        from eadp_env_resource
+        where env_id = #{envId}
+        and tenant_id = #{tenantId}
+        and main_category = #{mainCategory}
+        <if test="subCategory != null">
+            and sub_category = #{subCategory}
+        </if>
+    </select>
+
+    <select id="getEnvResourceByEnvIdAndInstId" resultType="com.ctg.cicd.config.entity.EnvResource">
+        select
+        <include refid="Base_Column_List" />
+        from eadp_env_resource
+        where env_id = #{envId}
+        and inst_id = #{instId}
+    </select>
+
+</mapper>

@@ -38,7 +38,7 @@ public class SettingsRoleController {
     @ApiOperation(value = "节点角色增加")
     @PostMapping("/add")
     JSONObject addRoleUser(@RequestBody SettingsRoleAddVo settingsRoleAddVo) {
-        String userName = SecurityUtils.getUserName() == null ? "张三" : SecurityUtils.getUserName();
+        String userName =  SecurityUtils.getUserName();
         JSONObject data = new JSONObject();
         boolean res = iSettingsRoleService.createRole(settingsRoleAddVo, userName);
         data.put("success", res);
@@ -58,7 +58,7 @@ public class SettingsRoleController {
     @PostMapping("/update")
     JSONObject updateRole(@RequestBody SettingsRoleUpdateVo settingsRollUpdateVo) {
         // 角色修改成功 返回true  否则返回false
-        String userName = SecurityUtils.getUserName() == null ? "张三" : SecurityUtils.getUserName();
+        String userName =  SecurityUtils.getUserName();
         boolean res = iSettingsRoleService.updateRole(userName, settingsRollUpdateVo);
         JSONObject data = new JSONObject();
         data.put("success", res);
@@ -73,7 +73,7 @@ public class SettingsRoleController {
             @RequestParam(name = "roleName", required = false) String roleName,
             @RequestParam(name = "roleStatus", required = false) Integer roleStatus) {
         // 当前租户为空的话，直接返回根节点的id为1
-        Long tenantId = SecurityUtils.getCurrentTenantId()==null?10081:SecurityUtils.getCurrentTenantId();
+        Long tenantId = SecurityUtils.getCurrentTenantId();
         Long nodeRootId = iNodeInfoService.getNodeRootId(tenantId);
         return iSettingsRoleService.listByCondition(nodeRootId, roleName, roleStatus, pageNum, pageSize);
     }

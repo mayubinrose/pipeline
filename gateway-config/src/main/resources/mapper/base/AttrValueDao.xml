@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctg.cicd.config.dao.AttrValueDao">
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.base.AttrValue">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="attr_spec_id" jdbcType="BIGINT" property="attrSpecId" />
+        <result column="attr_value" jdbcType="VARCHAR" property="attrValue" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="status_cd" jdbcType="VARCHAR" property="statusCd" />
+        <result column="status_time" jdbcType="TIMESTAMP" property="statusTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_staff" jdbcType="VARCHAR" property="createStaff" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_staff" jdbcType="VARCHAR" property="updateStaff" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, attr_spec_id, attr_value, name, sequence, description, status_cd, status_time,
+    create_time, create_staff, update_time, update_staff
+  </sql>
+</mapper>

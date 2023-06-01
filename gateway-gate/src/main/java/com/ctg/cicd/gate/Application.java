@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 @EnableFeignClients(basePackages = {"com.ctg.cicd"})
 @MapperScan("com.ctg.cicd.**.dao")
+@ComponentScan("com.ctg")
 @SpringBootApplication(scanBasePackages = "com.ctg.cicd")
 public class Application extends SpringBootServletInitializer {
 

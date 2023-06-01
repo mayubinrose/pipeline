@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.cicd.dao.PipelineDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ctg.cicd.config.entity.Pipeline">
+        <id column="id" property="id" />
+        <result column="pipeline_uuid" property="pipelineUuid" />
+        <result column="node_id" property="nodeId" />
+        <result column="ndoe_uuid" property="ndoeUuid" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="user_id" property="userId" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="last_update_by" property="lastUpdateBy" />
+        <result column="pipeline_name" property="pipelineName" />
+        <result column="template_id" property="templateId" />
+        <result column="pipeline_env" property="pipelineEnv" />
+        <result column="pipeline_type" property="pipelineType" />
+        <result column="last_execution_id" property="lastExecutionId" />
+        <result column="last_execution_time" property="lastExecutionTime" />
+        <result column="last_execution_status" property="lastExecutionStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pipeline_uuid, node_id, ndoe_uuid, tenant_id, user_id, create_by, create_time, last_update_by, pipeline_name, template_id, pipeline_env, pipeline_type, last_execution_id, last_execution_time, last_execution_status
+    </sql>
+
+</mapper>
